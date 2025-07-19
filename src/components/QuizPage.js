@@ -53,14 +53,14 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
   }, [getProgressKey]);
 
   // 배열 셔플 함수
-  const shuffleArray = (array) => {
+  const shuffleArray = useCallback((array) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
-  };
+  }, []);
 
   // 북마크 데이터 로드
   useEffect(() => {
@@ -119,17 +119,50 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
           return;
         }
 
-        // 일반 모드 - 다중 덤프 지원
-        const response = await fetch(`/data/${selectedDump.id}.json`);
-        
-        if (!response.ok) {
-          console.log(`덤프 파일 로드 실패: ${selectedDump.id}.json, 상태 코드:`, response.status);
-          throw new Error('덤프 파일을 찾을 수 없습니다');
+        // 일반 모드 - 기존 방식과 새 방식 모두 지원
+        let response;
+        let data;
+
+        // 먼저 다중 덤프 방식으로 시도 (새로운 방식)
+        try {
+          response = await fetch(`/data/${selectedDump.id}.json`);
+          if (response.ok) {
+            data = await response.json();
+            console.log('다중 덤프 파일에서 로드:', selectedDump.id);
+          } else {
+            throw new Error('다중 덤프 파일 없음');
+          }
+        } catch (error) {
+          // 기존 방식으로 fallback
+          console.log('기존 aws-dumps.json에서 로드 시도...');
+          response = await fetch('/data/aws-dumps.json');
+          
+          if (!response.ok) {
+            console.log('JSON 파일 로드 실패, 상태 코드:', response.status);
+            throw new Error('덤프 파일을 찾을 수 없습니다');
+          }
+          
+          const oldFormatData = await response.json();
+          console.log('기존 형식 데이터 로드됨');
+          
+          if (oldFormatData.dumps && Array.isArray(oldFormatData.dumps)) {
+            const selectedDumpData = oldFormatData.dumps.find(dump => dump.id === selectedDump.id);
+            
+            if (!selectedDumpData) {
+              throw new Error('선택된 덤프를 찾을 수 없습니다');
+            }
+            
+            // fallback: selectedQuestionCount를 덤프에 추가
+            data = {
+              ...selectedDumpData,
+              selectedQuestionCount: selectedDump.selectedQuestionCount
+            };
+            console.log('기존 형식에서 덤프 찾음:', selectedDumpData.title);
+          } else {
+            throw new Error('잘못된 덤프 파일 형식');
+          }
         }
-        
-        const data = await response.json();
-        console.log('로드된 덤프 데이터:', data);
-        
+
         if (data && data.questions) {
           const processedQuestions = data.questions.map(question => ({
             ...question,
@@ -153,7 +186,7 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
     if (selectedDump) {
       loadQuestions();
     }
-  }, [selectedDump]);
+  }, [selectedDump, shuffleArray]);
 
   // 문제가 로드된 후 진행상황 복원
   useEffect(() => {
@@ -450,10 +483,10 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
   };
 
   // 퀴즈 종료 시 진행상황 삭제
-  const handleQuitQuiz = () => {
+  const handleQuitQuiz = useCallback(() => {
     clearProgress();
     onBackToDumpSelector();
-  };
+  }, [clearProgress, onBackToDumpSelector]);
 
   if (!selectedDump || questions.length === 0) {
     return (
