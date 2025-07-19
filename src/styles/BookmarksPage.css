@@ -1,0 +1,340 @@
+.bookmarks-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .bookmarks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding: 25px;
+    background: #2a2a2a;
+    border-radius: 12px;
+    border: 1px solid #404040;
+  }
+  
+  .header-content h1 {
+    color: #ffffff;
+    margin: 0 0 8px 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+  
+  .header-content p {
+    color: #b0b0b0;
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  .header-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .quiz-start-btn {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #4A90E2, #66A3FF);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+  }
+  
+  .quiz-start-btn:hover {
+    background: linear-gradient(135deg, #3A7BD5, #5A9EFF);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+  }
+  
+  .clear-all-btn {
+    padding: 12px 20px;
+    background: #666;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .clear-all-btn:hover {
+    background: #FF6B6B;
+    transform: translateY(-2px);
+  }
+  
+  .empty-bookmarks {
+    text-align: center;
+    padding: 60px 20px;
+    background: #2a2a2a;
+    border-radius: 12px;
+    border: 1px solid #404040;
+  }
+  
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+  }
+  
+  .empty-bookmarks h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .empty-bookmarks > p {
+    color: #b0b0b0;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+  
+  .empty-tips {
+    background: #333333;
+    padding: 25px;
+    border-radius: 8px;
+    text-align: left;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .empty-tips h4 {
+    color: #4ECDC4;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+  }
+  
+  .empty-tips ul {
+    color: #b0b0b0;
+    padding-left: 20px;
+    line-height: 1.6;
+  }
+  
+  .empty-tips li {
+    margin-bottom: 8px;
+  }
+  
+  .bookmarks-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .bookmarks-summary {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .summary-card {
+    background: #2a2a2a;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #404040;
+    min-width: 200px;
+  }
+  
+  .summary-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #4A90E2;
+    margin-bottom: 10px;
+  }
+  
+  .summary-label {
+    color: #b0b0b0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .bookmarks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .bookmark-item {
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid #404040;
+    transition: all 0.3s ease;
+  }
+  
+  .bookmark-item:hover {
+    border-color: #4A90E2;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.1);
+  }
+  
+  .bookmark-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #404040;
+  }
+  
+  .question-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .question-number {
+    background: #4A90E2;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
+  .question-type {
+    background: #333333;
+    color: #4ECDC4;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .remove-bookmark-btn {
+    background: #666;
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .remove-bookmark-btn:hover {
+    background: #FF6B6B;
+    transform: scale(1.1);
+  }
+  
+  .question-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .question-text {
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  
+  .options-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 15px;
+    background: #333333;
+    border-radius: 8px;
+  }
+  
+  .option-preview {
+    display: flex;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #404040;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+  }
+  
+  .option-preview:hover {
+    background: #4a4a4a;
+  }
+  
+  .option-label {
+    color: #4A90E2;
+    font-weight: bold;
+    min-width: 25px;
+  }
+  
+  .option-text {
+    color: #e0e0e0;
+    flex: 1;
+  }
+  
+  .answer-preview {
+    padding: 12px 15px;
+    background: #1a4a1a;
+    border-radius: 6px;
+    border-left: 4px solid #00E676;
+  }
+  
+  .answer-preview strong {
+    color: #ffffff;
+  }
+  
+  .correct-answer {
+    color: #00E676;
+    font-weight: bold;
+  }
+  
+  .explanation-preview {
+    padding: 12px 15px;
+    background: #333333;
+    border-radius: 6px;
+    border-left: 4px solid #4ECDC4;
+  }
+  
+  .explanation-preview strong {
+    color: #ffffff;
+  }
+  
+  .explanation-preview span {
+    color: #b0b0b0;
+    line-height: 1.5;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+    color: #b0b0b0;
+  }
+  
+  @media (max-width: 768px) {
+    .bookmarks-header {
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .header-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .quiz-start-btn, .clear-all-btn {
+      width: 100%;
+    }
+    
+    .bookmark-header {
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-start;
+    }
+    
+    .question-info {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+  }
+  

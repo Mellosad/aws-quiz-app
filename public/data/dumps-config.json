@@ -1,0 +1,10 @@
+{
+  "dumps": [
+    {
+      "id": "aws-saa-c03",
+      "filename": "aws-saa-c03.json",
+      "enabled": true,
+      "featured": true
+    }
+  ]
+}
