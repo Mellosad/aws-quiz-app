@@ -1,0 +1,27 @@
+{
+  "dumps": [
+    {
+      "id": "aws-saa-c03",
+      "title": "AWS Solutions Architect Associate (SAA-C03)",
+      "description": "AWS 솔루션 아키텍트 어소시에이트 자격증 덤프",
+      "totalQuestions": 725,
+      "difficulty": "중급",
+      "category":"Associate",
+      "questions": [
+        {
+          "id": 1,
+          "question": "회사는 데이터를 수집합니다.",
+          "options": [
+            "S3 Transfer Acceleration ",
+            "S3 버킷에 업로드합니다. ",
+            "AWS Snowball Edge Storage",
+            "EBS 볼륨"
+          ],
+          "correctAnswer": 0,
+          "explanation": "YAHO.",
+          "type": "single"
+        }
+      ]
+    }
+  ]
+}
