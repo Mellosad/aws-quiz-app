@@ -119,52 +119,22 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
           return;
         }
 
-        // 일반 모드 - 기존 방식과 새 방식 모두 지원
-        let response;
-        let data;
-
-        // 먼저 다중 덤프 방식으로 시도 (새로운 방식)
-        try {
-          response = await fetch(`/data/${selectedDump.id}.json`);
-          if (response.ok) {
-            data = await response.json();
-            console.log('다중 덤프 파일에서 로드:', selectedDump.id);
-          } else {
-            throw new Error('다중 덤프 파일 없음');
-          }
-        } catch (error) {
-          // 기존 방식으로 fallback
-          console.log('기존 aws-dumps.json에서 로드 시도...');
-          response = await fetch('/data/aws-dumps.json');
-          
-          if (!response.ok) {
-            console.log('JSON 파일 로드 실패, 상태 코드:', response.status);
-            throw new Error('덤프 파일을 찾을 수 없습니다');
-          }
-          
-          const oldFormatData = await response.json();
-          console.log('기존 형식 데이터 로드됨');
-          
-          if (oldFormatData.dumps && Array.isArray(oldFormatData.dumps)) {
-            const selectedDumpData = oldFormatData.dumps.find(dump => dump.id === selectedDump.id);
-            
-            if (!selectedDumpData) {
-              throw new Error('선택된 덤프를 찾을 수 없습니다');
-            }
-            
-            // fallback: selectedQuestionCount를 덤프에 추가
-            data = {
-              ...selectedDumpData,
-              selectedQuestionCount: selectedDump.selectedQuestionCount
-            };
-            console.log('기존 형식에서 덤프 찾음:', selectedDumpData.title);
-          } else {
-            throw new Error('잘못된 덤프 파일 형식');
-          }
+        // 일반 모드 - aws-dumps.json 파일만 사용
+        const response = await fetch('/data/aws-dumps.json');
+        
+        if (!response.ok) {
+          console.log('JSON 파일 로드 실패, 상태 코드:', response.status);
+          throw new Error('덤프 파일을 찾을 수 없습니다');
         }
-
-        if (data && data.questions) {
-          const processedQuestions = data.questions.map(question => ({
+        
+        const data = await response.json();
+        console.log('로드된 JSON 데이터:', data);
+        
+        const selectedDumpData = data.dumps.find(dump => dump.id === selectedDump.id);
+        console.log('선택된 덤프 데이터:', selectedDumpData);
+        
+        if (selectedDumpData && selectedDumpData.questions) {
+          const processedQuestions = selectedDumpData.questions.map(question => ({
             ...question,
             type: question.type || 'single'
           }));

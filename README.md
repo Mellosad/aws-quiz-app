@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+# 🚀 AWS Quiz Master - 인터랙티브 AWS 자격증 학습 플랫폼
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> 효율적이고 체계적인 AWS 자격증 준비를 위한 완전한 퀴즈 학습 시스템
 
-## Available Scripts
+npm start
 
-In the project directory, you can run:
+## ✨ 주요 기능
 
-### `npm start`
+### 🎯 **스마트 퀴즈 시스템**
+- 🎲 **랜덤 문제 추출**: 매번 다른 문제 조합으로 학습
+- 📊 **문항 수 선택**: 문제 자유롭게 선택
+- ⏱️ **예상 소요 시간**: 자동 계산으로 학습 계획 수립
+- 🔄 **진행상황 자동 저장**: 페이지 이동해도 이어서 풀기 가능
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### ⌨️ **사용자 경험 최적화**
+- **키보드 단축키**: 1-5(선택지), 스페이스(정답확인), Enter(다음), B(북마크)
+- **다크/라이트 모드**: 개인 취향에 맞는 테마 선택
+- **반응형 디자인**: 모바일, 태블릿, 데스크톱 완벽 지원
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 📚 **고급 학습 관리**
+- ⭐ **북마크 시스템**: 중요한 문제 즐겨찾기 및 복습
+- 🔍 **스마트 검색**: 키워드, 카테고리별 문제 필터링
+- 📈 **약점 분석**: AI 기반 카테고리 자동 분류 및 성과 분석
+- 📊 **학습 기록**: 상세한 통계 및 진도 추적
 
-### `npm test`
+### 🧠 **AI 기반 분석**
+- **카테고리 자동 분류**: EC2, S3, VPC, RDS, Lambda 등 10개 영역
+- **약점 패턴 분석**: 반복 실수 문제 식별
+- **맞춤형 학습 권장**: 개인별 약점에 맞는 학습 가이드
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 빠른 시작
 
-### `npm run build`
+### 설치
+git clone https://github.com/your-username/aws-quiz-master.git
+cd aws-quiz-master
+npm install
+npm start
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 문제 데이터 추가
+Example.json의 형식대로 덤프를 구성후 aws-dumps.json으로 변경.
+public/data/aws-dumps.json 필요
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🎮 사용법
 
-### `npm run eject`
+### 1️⃣ **기본 학습**
+1. 덤프 선택 → 문항 수 설정 → 퀴즈 시작
+2. 키보드 단축키로 빠른 문제 풀이
+3. 실시간 정답 확인 및 해설 학습
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2️⃣ **고급 기능**
+- **북마크**: 어려운 문제를 B키로 즐겨찾기
+- **검색**: 특정 주제나 서비스별 문제 검색
+- **약점 분석**: 개인별 취약 영역 파악 및 집중 학습
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📊 기술 스택
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Frontend**: React 18+, Modern CSS3
+- **상태 관리**: React Hooks (useState, useEffect, useCallback)
+- **데이터 저장**: Local Storage
+- **스타일링**: CSS Variables, Flexbox, Grid
+- **최적화**: 메모이제이션, 지연 로딩
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🏗️ 프로젝트 구조
 
-## Learn More
+src/
+├── components/ # React 컴포넌트
+│ ├── DumpSelector.js # 덤프 선택
+│ ├── QuizPage.js # 퀴즈 실행
+│ ├── SearchPage.js # 문제 검색
+│ ├── BookmarksPage.js # 북마크 관리
+│ └── WeaknessAnalysisPage.js # 약점 분석
+├── styles/ # CSS 스타일
+├── contexts/ # React Context
+└── App.js # 메인 앱
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🔧 주요 특징
 
-### Code Splitting
+### 📱 **사용자 친화적 인터페이스**
+- 직관적인 다크 테마 디자인
+- 부드러운 애니메이션 효과
+- 접근성 고려한 키보드 네비게이션
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### ⚡ **성능 최적화**
+- React.memo 및 useCallback으로 리렌더링 최소화
+- 지연 로딩으로 초기 로드 시간 단축
+- 효율적인 상태 관리
 
-### Analyzing the Bundle Size
+### 🧪 **확장 가능한 구조**
+- 컴포넌트 기반 모듈러 설계
+- 새로운 덤프 추가 용이
+- 다양한 문제 유형 지원
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🎯 지원하는 문제 유형
 
-### Making a Progressive Web App
+- **단일 선택**: 하나의 정답 선택
+- **복수 선택**: 여러 정답 동시 선택
+- **카테고리별**: EC2, S3, VPC, RDS, Lambda 등
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📈 학습 효과
 
-### Advanced Configuration
+- **과학적 학습법**: 망각곡선 기반 복습 시스템
+- **개인화**: AI 기반 약점 분석 및 맞춤 학습
+- **동기부여**: 성취도 추적 및 시각화
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
