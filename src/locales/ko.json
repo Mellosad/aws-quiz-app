@@ -1,0 +1,56 @@
+{
+    "nav": {
+      "dumpSelector": "덤프 선택",
+      "quiz": "문제 풀이",
+      "search": "문제 검색",
+      "bookmarks": "북마크",
+      "weakness": "약점 분석",
+      "history": "학습 기록"
+    },
+    "dump": {
+      "title": "AWS 자격증 덤프 선택",
+      "subtitle": "학습하고 싶은 AWS 덤프를 선택해주세요",
+      "questions": "문제",
+      "startQuiz": "퀴즈 시작",
+      "selectQuestions": "문항 수 선택",
+      "estimatedTime": "예상 소요 시간: {{time}}분"
+    },
+    "quiz": {
+      "question": "문제 {{current}} / {{total}}",
+      "score": "점수: {{score}}/{{total}}",
+      "checkAnswer": "정답 확인",
+      "nextQuestion": "다음 문제",
+      "prevQuestion": "이전 문제",
+      "explanation": "해설:",
+      "correct": "정답!",
+      "incorrect": "오답!",
+      "bookmark": "북마크",
+      "complete": "퀴즈 완료"
+    },
+    "search": {
+      "title": "문제 검색",
+      "placeholder": "문제 내용, 선택지, 해설에서 검색...",
+      "category": "카테고리",
+      "allCategories": "전체 카테고리",
+      "foundQuestions": "{{count}}개 문제 발견",
+      "selectedQuestions": "{{count}}개 선택됨"
+    },
+    "bookmarks": {
+      "title": "북마크한 문제",
+      "subtitle": "중요하다고 표시한 문제들을 관리하세요",
+      "empty": "북마크한 문제가 없습니다",
+      "startQuiz": "북마크 퀴즈 시작"
+    },
+    "weakness": {
+      "title": "약점 분석 대시보드",
+      "subtitle": "나의 학습 패턴을 분석하고 약점을 파악해보세요",
+      "overallAccuracy": "전체 정답률",
+      "categories": "학습 영역",
+      "weakAreas": "취약 영역",
+      "repeatedErrors": "반복 실수"
+    },
+    "keyboard": {
+      "shortcuts": "단축키: 1-5(선택지) | 스페이스(정답확인) | Enter(다음) | B(북마크) | ← →(이동)"
+    }
+  }
+  

@@ -1,0 +1,56 @@
+{
+    "nav": {
+      "dumpSelector": "Dump Selection",
+      "quiz": "Quiz",
+      "search": "Search",
+      "bookmarks": "Bookmarks",
+      "weakness": "Weakness Analysis",
+      "history": "Learning History"
+    },
+    "dump": {
+      "title": "AWS Certification Dumps",
+      "subtitle": "Select the AWS dump you want to study",
+      "questions": "questions",
+      "startQuiz": "Start Quiz",
+      "selectQuestions": "Select Question Count",
+      "estimatedTime": "Estimated time: {{time}} minutes"
+    },
+    "quiz": {
+      "question": "Question {{current}} / {{total}}",
+      "score": "Score: {{score}}/{{total}}",
+      "checkAnswer": "Check Answer",
+      "nextQuestion": "Next Question",
+      "prevQuestion": "Previous Question",
+      "explanation": "Explanation:",
+      "correct": "Correct!",
+      "incorrect": "Incorrect!",
+      "bookmark": "Bookmark",
+      "complete": "Quiz Complete"
+    },
+    "search": {
+      "title": "Question Search",
+      "placeholder": "Search in questions, options, explanations...",
+      "category": "Category",
+      "allCategories": "All Categories",
+      "foundQuestions": "{{count}} questions found",
+      "selectedQuestions": "{{count}} selected"
+    },
+    "bookmarks": {
+      "title": "Bookmarked Questions",
+      "subtitle": "Manage your important questions",
+      "empty": "No bookmarked questions",
+      "startQuiz": "Start Bookmark Quiz"
+    },
+    "weakness": {
+      "title": "Weakness Analysis Dashboard",
+      "subtitle": "Analyze your learning patterns and identify weaknesses",
+      "overallAccuracy": "Overall Accuracy",
+      "categories": "Categories",
+      "weakAreas": "Weak Areas",
+      "repeatedErrors": "Repeated Errors"
+    },
+    "keyboard": {
+      "shortcuts": "Shortcuts: 1-5(options) | Space(check) | Enter(next) | B(bookmark) | ← →(navigate)"
+    }
+  }
+  

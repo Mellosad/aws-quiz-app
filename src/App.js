@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import './i18n'; 
 import Layout from './components/Layout';
 import DumpSelector from './components/DumpSelector';
 import QuizPage from './components/QuizPage';

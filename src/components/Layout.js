@@ -1,9 +1,12 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
+import LanguageSwitcher from './LanguageSwitcher';
 import '../styles/Layout.css';
 
 function Layout({ children, currentPage, onNavigate, hasActiveQuiz, onNavigateToQuiz }) {
   const { toggleTheme, isDark } = useTheme();
+  const { t } = useTranslation();
 
   const handleQuizNavigation = () => {
     if (hasActiveQuiz) {
@@ -13,62 +16,62 @@ function Layout({ children, currentPage, onNavigate, hasActiveQuiz, onNavigateTo
 
   return (
     <div className="layout">
-      {/* 사이드바 */}
       <div className="sidebar">
         <div className="sidebar-header">
-          <h2>AWS 퀴즈</h2>
-          <button 
-            className="theme-toggle-btn"
-            onClick={toggleTheme}
-            title={`${isDark ? '라이트' : '다크'} 모드로 전환`}
-          >
-            {isDark ? '☀️' : '🌙'}
-          </button>
+          <h2>AWS Quiz</h2>
+          <div className="header-controls">
+            <LanguageSwitcher />
+            <button 
+              className="theme-toggle-btn"
+              onClick={toggleTheme}
+              title={`${isDark ? '라이트' : '다크'} 모드로 전환`}
+            >
+              {isDark ? '☀️' : '🌙'}
+            </button>
+          </div>
         </div>
         <nav className="sidebar-nav">
           <button 
             className={currentPage === 'dump-selector' ? 'nav-item active' : 'nav-item'}
             onClick={() => onNavigate('dump-selector')}
           >
-            📚 덤프 선택
+            📚 {t('nav.dumpSelector')}
           </button>
           <button 
             className={`nav-item ${currentPage === 'quiz' ? 'active' : ''} ${!hasActiveQuiz ? 'disabled' : ''}`}
             onClick={handleQuizNavigation}
             disabled={!hasActiveQuiz}
-            title={hasActiveQuiz ? '퀴즈 페이지로 이동' : '먼저 덤프를 선택해주세요'}
           >
-            ❓ 문제 풀이
+            ❓ {t('nav.quiz')}
             {hasActiveQuiz && <span className="quiz-indicator">●</span>}
           </button>
           <button 
             className={currentPage === 'search' ? 'nav-item active' : 'nav-item'}
             onClick={() => onNavigate('search')}
           >
-            🔍 문제 검색
+            🔍 {t('nav.search')}
           </button>
           <button 
             className={currentPage === 'bookmarks' ? 'nav-item active' : 'nav-item'}
             onClick={() => onNavigate('bookmarks')}
           >
-            ⭐ 북마크
+            ⭐ {t('nav.bookmarks')}
           </button>
           <button 
             className={currentPage === 'weakness' ? 'nav-item active' : 'nav-item'}
             onClick={() => onNavigate('weakness')}
           >
-            📈 약점 분석
+            📈 {t('nav.weakness')}
           </button>
           <button 
             className={currentPage === 'history' ? 'nav-item active' : 'nav-item'}
             onClick={() => onNavigate('history')}
           >
-            📊 학습 기록
+            📊 {t('nav.history')}
           </button>
         </nav>
       </div>
       
-      {/* 메인 콘텐츠 */}
       <div className="main-content">
         {children}
       </div>
