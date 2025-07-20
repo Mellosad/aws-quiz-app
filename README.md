@@ -1,62 +1,56 @@
-# 🚀 AWS Quiz Master - 인터랙티브 AWS 자격증 학습 플랫폼
+🚀 AWS Quiz Master - Interactive AWS Certification Learning Platform
+A comprehensive quiz learning system for efficient and systematic AWS certification preparation Personal DUMP required
 
-> 효율적이고 체계적인 AWS 자격증 준비를 위한 완전한 퀴즈 학습 시스템
-> ** 개인 DUMP 필요
-
+bash
 npm start
+✨ Key Features
+🎯 Smart Quiz System
+🎲 Random Question Selection: Study with different question combinations every time
 
-## ✨ 주요 기능
+📊 Flexible Question Count: Choose the number of questions freely
 
-### 🎯 **스마트 퀴즈 시스템**
-- 🎲 **랜덤 문제 추출**: 매번 다른 문제 조합으로 학습
-- 📊 **문항 수 선택**: 문제 자유롭게 선택
-- ⏱️ **예상 소요 시간**: 자동 계산으로 학습 계획 수립
-- 🔄 **진행상황 자동 저장**: 페이지 이동해도 이어서 풀기 가능
+⏱️ Estimated Time: Automatic calculation for study planning
 
-### ⌨️ **사용자 경험 최적화**
-- **키보드 단축키**: 1-5(선택지), 스페이스(정답확인), Enter(다음), B(북마크)
-- **다크/라이트 모드**: 개인 취향에 맞는 테마 선택
-- **반응형 디자인**: 모바일, 태블릿, 데스크톱 완벽 지원
+🔄 Auto-Save Progress: Continue where you left off even after page navigation
 
-### 📚 **고급 학습 관리**
-- ⭐ **북마크 시스템**: 중요한 문제 즐겨찾기 및 복습
-- 🔍 **스마트 검색**: 키워드, 카테고리별 문제 필터링
-- 📈 **약점 분석**: AI 기반 카테고리 자동 분류 및 성과 분석
-- 📊 **학습 기록**: 상세한 통계 및 진도 추적
+⌨️ Optimized User Experience
+Keyboard Shortcuts: 1-5 (options), Space (check answer), Enter (next), B (bookmark)
 
-## 🚀 빠른 시작
+Dark/Light Mode: Choose themes that match your preference
 
-### 설치
+Responsive Design: Perfect support for mobile, tablet, and desktop
+
+📚 Advanced Learning Management
+⭐ Bookmark System: Favorite important questions for review
+
+🔍 Smart Search: Filter questions by keyword and category
+
+📈 Weakness Analysis: AI-based automatic category classification and performance analysis
+
+📊 Learning Records: Detailed statistics and progress tracking
+
+🚀 Quick Start
+Installation
+bash
 git clone https://github.com/your-username/aws-quiz-master.git
 cd aws-quiz-master
 npm install
 npm start
+Adding Question Data
+Configure your dump according to Example.json format, then rename to aws-dumps.json.
+Required: public/data/aws-dumps.json
 
-### 문제 데이터 추가
-Example.json의 형식대로 덤프를 구성후 aws-dumps.json으로 변경.
-public/data/aws-dumps.json 필요
+🎮 Usage
+1️⃣ Basic Learning
+Select dump → Set number of questions → Start quiz
 
+Fast problem solving with keyboard shortcuts
 
-## 🎮 사용법
+Real-time answer checking and explanation learning
 
-### 1️⃣ **기본 학습**
-1. 덤프 선택 → 문항 수 설정 → 퀴즈 시작
-2. 키보드 단축키로 빠른 문제 풀이
-3. 실시간 정답 확인 및 해설 학습
+2️⃣ Advanced Features
+Bookmarks: Mark difficult questions with B key for favorites
 
-### 2️⃣ **고급 기능**
-- **북마크**: 어려운 문제를 B키로 즐겨찾기
-- **검색**: 특정 주제나 서비스별 문제 검색
-- **약점 분석**: 개인별 취약 영역 파악 및 집중 학습
+Search: Search for questions by specific topics or services
 
-src/
-├── components/ # React 컴포넌트
-│ ├── DumpSelector.js # 덤프 선택
-│ ├── QuizPage.js # 퀴즈 실행
-│ ├── SearchPage.js # 문제 검색
-│ ├── BookmarksPage.js # 북마크 관리
-│ └── WeaknessAnalysisPage.js # 약점 분석
-├── styles/ # CSS 스타일
-├── contexts/ # React Context
-└── App.js # 메인 앱
-
+Weakness Analysis: Identify personal weak areas and focus learning
