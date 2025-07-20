@@ -1,8 +1,10 @@
 🚀 AWS Quiz Master - Interactive AWS Certification Learning Platform
 A comprehensive quiz learning system for efficient and systematic AWS certification preparation Personal DUMP required
 
-bash
+
 npm start
+
+
 ✨ Key Features
 🎯 Smart Quiz System
 🎲 Random Question Selection: Study with different question combinations every time
