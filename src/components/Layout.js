@@ -18,13 +18,13 @@ function Layout({ children, currentPage, onNavigate, hasActiveQuiz, onNavigateTo
     <div className="layout">
       <div className="sidebar">
         <div className="sidebar-header">
-          <h2>AWS Quiz</h2>
+          <h2>{t('app.title', 'AWS Quiz')}</h2>
           <div className="header-controls">
             <LanguageSwitcher />
             <button 
               className="theme-toggle-btn"
               onClick={toggleTheme}
-              title={`${isDark ? '라이트' : '다크'} 모드로 전환`}
+              title={t(isDark ? 'theme.light' : 'theme.dark') + t('theme.switch')}
             >
               {isDark ? '☀️' : '🌙'}
             </button>

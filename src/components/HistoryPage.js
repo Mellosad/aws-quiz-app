@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/HistoryPage.css';
+import { useTranslation } from 'react-i18next';
 
 function HistoryPage() {
   const [quizHistory, setQuizHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     loadQuizHistory();
@@ -58,42 +60,40 @@ function HistoryPage() {
   return (
     <div className="history-page">
       <div className="history-header">
-        <div className="header-content">
-          <h1>📊 학습 기록</h1>
-          <p>지금까지의 학습 성과를 확인하세요</p>
-        </div>
-        {totalQuizzes > 0 && (
-          <button className="clear-history-btn" onClick={clearHistory}>
-            🗑️ 기록 삭제
-          </button>
-        )}
+        <h1>{t('history.title')}</h1>
+        <p>{t('history.subtitle')}</p>
       </div>
+      {totalQuizzes > 0 && (
+        <button className="clear-history-btn" onClick={clearHistory}>
+          {t('history.clearHistory')}
+        </button>
+      )}
 
       {totalQuizzes === 0 ? (
         <div className="empty-history">
-          <div className="empty-icon">📈</div>
-          <h3>아직 학습 기록이 없습니다</h3>
-          <p>퀴즈를 완료하면 여기에 기록이 남습니다!</p>
+          <div className="empty-icon">📊</div>
+          <h3>{t('history.empty')}</h3>
+          <p>{t('history.emptyGuide')}</p>
         </div>
       ) : (
         <div className="history-content">
           <div className="history-stats">
             <div className="stat-card">
               <div className="stat-number">{totalQuizzes}</div>
-              <div className="stat-label">완료한 퀴즈</div>
+              <div className="stat-label">{t('history.completedQuizzes')}</div>
             </div>
             <div className="stat-card">
               <div className="stat-number">{averageScore}%</div>
-              <div className="stat-label">평균 점수</div>
+              <div className="stat-label">{t('history.averageScore')}</div>
             </div>
             <div className="stat-card">
               <div className="stat-number">{totalQuestions}</div>
-              <div className="stat-label">푼 문제 수</div>
+              <div className="stat-label">{t('history.totalQuestions')}</div>
             </div>
           </div>
 
           <div className="history-list">
-            <h3>최근 퀴즈 기록</h3>
+            <h3>{t('history.recentRecords')}</h3>
             {quizHistory.map((quiz, index) => {
               const gradeInfo = getGradeInfo(quiz.percentage);
               return (

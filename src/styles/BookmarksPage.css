@@ -308,6 +308,144 @@
     color: #b0b0b0;
   }
   
+  /* 카드 스타일 개선 */
+.card-style {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(74, 144, 226, 0.08);
+  border: 1.5px solid var(--border-color);
+  margin-bottom: 32px;
+  padding: 28px 24px 18px 24px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.card-style:hover {
+  box-shadow: 0 8px 32px rgba(74, 144, 226, 0.18);
+  border-color: var(--accent-color);
+}
+
+/* 강조된 empty 상태 */
+.emphasized-empty {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  border-radius: 18px;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.18);
+  padding: 60px 20px 40px 20px;
+  text-align: center;
+  margin: 40px auto 0 auto;
+  max-width: 480px;
+}
+.emphasized-empty .empty-icon {
+  font-size: 4.5rem;
+  margin-bottom: 18px;
+}
+.emphasized-empty h2 {
+  color: var(--text-primary);
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+.emphasized-empty .empty-guide {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+}
+.emphasized-empty .main-action {
+  margin-top: 28px;
+  font-size: 1.1rem;
+  padding: 16px 32px;
+}
+
+/* 상단 버튼 한 줄 정렬 */
+.bookmarks-actions-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+/* 메인 액션 버튼 강조 */
+.main-action {
+  background: linear-gradient(135deg, #4A90E2, #66A3FF);
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-size: 1rem;
+  box-shadow: 0 4px 16px rgba(74, 144, 226, 0.13);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.main-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.main-action:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3A7BD5, #5A9EFF);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.quiz-start-btn, .clear-all-btn, .refresh-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  background: #666;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.quiz-start-btn.main-action {
+  background: linear-gradient(135deg, #00C851, #00E676);
+}
+.quiz-start-btn.main-action:hover {
+  background: linear-gradient(135deg, #00B248, #00D664);
+}
+.clear-all-btn:hover {
+  background: #FF6B6B;
+}
+.refresh-btn:hover {
+  background: #4A90E2;
+}
+
+/* 해설 더보기/접기 애니메이션 */
+.explanation-text {
+  display: inline-block;
+  max-width: 100%;
+  transition: max-height 0.3s, opacity 0.3s;
+  overflow: hidden;
+}
+.expand-btn {
+  background: none;
+  border: none;
+  color: #4A90E2;
+  font-weight: 600;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: color 0.2s;
+}
+.expand-btn:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* 북마크 카드 내부 여백 및 반응형 */
+.bookmark-item {
+  margin-bottom: 32px;
+}
+@media (max-width: 600px) {
+  .card-style {
+    padding: 18px 8px 12px 8px;
+  }
+  .emphasized-empty {
+    padding: 32px 6px 24px 6px;
+  }
+  .bookmarks-actions-row {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+}
+  
   @media (max-width: 768px) {
     .bookmarks-header {
       flex-direction: column;

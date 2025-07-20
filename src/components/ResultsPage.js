@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../styles/ResultsPage.css';
+import { useTranslation } from 'react-i18next';
 
 function ResultsPage({ quizResult, onBackToDumpSelector }) {
   const [showAllQuestions, setShowAllQuestions] = useState(false);
+  const { t } = useTranslation();
 
   if (!quizResult) {
     return (
@@ -16,10 +18,10 @@ function ResultsPage({ quizResult, onBackToDumpSelector }) {
   const incorrectQuestions = questions.filter(q => !q.isCorrect);
   
   const getGrade = (percentage) => {
-    if (percentage >= 90) return { grade: '🏆 우수', color: '#FFD700' };
-    if (percentage >= 80) return { grade: '🥉 양호', color: '#C0C0C0' };
-    if (percentage >= 70) return { grade: '📚 보통', color: '#CD7F32' };
-    return { grade: '💪 재도전', color: '#FF6B6B' };
+    if (percentage >= 90) return { grade: t('history.grade.excellent'), color: '#FFD700' };
+    if (percentage >= 80) return { grade: t('history.grade.good'), color: '#C0C0C0' };
+    if (percentage >= 70) return { grade: t('history.grade.average'), color: '#CD7F32' };
+    return { grade: t('history.grade.retry'), color: '#FF6B6B' };
   };
 
   const gradeInfo = getGrade(percentage);
@@ -27,9 +29,9 @@ function ResultsPage({ quizResult, onBackToDumpSelector }) {
   return (
     <div className="results-page">
       <div className="results-header">
-        <h1>🎉 퀴즈 완료!</h1>
+        <h1>🎉 {t('results.title')}</h1>
         <button className="back-home-btn" onClick={onBackToDumpSelector}>
-          🏠 홈으로 돌아가기
+          {t('results.backToHome')}
         </button>
       </div>
 
@@ -49,29 +51,28 @@ function ResultsPage({ quizResult, onBackToDumpSelector }) {
             </div>
           </div>
           <div className="completion-time">
-            완료 시간: {new Date(completedAt).toLocaleString('ko-KR')}
+            {t('results.timeSpent')}: {new Date(completedAt).toLocaleString('ko-KR')}
           </div>
         </div>
-
         <div className="quick-stats">
           <div className="stat-item correct">
             <span className="stat-number">{finalScore}</span>
-            <span className="stat-label">정답</span>
+            <span className="stat-label">{t('results.correctAnswers')}</span>
           </div>
           <div className="stat-item incorrect">
             <span className="stat-number">{totalQuestions - finalScore}</span>
-            <span className="stat-label">오답</span>
+            <span className="stat-label">{t('results.wrongAnswers')}</span>
           </div>
           <div className="stat-item total">
             <span className="stat-number">{totalQuestions}</span>
-            <span className="stat-label">총 문제</span>
+            <span className="stat-label">{t('results.summary')}</span>
           </div>
         </div>
       </div>
 
       {incorrectQuestions.length > 0 && (
         <div className="wrong-answers-section">
-          <h3>❌ 오답 문제 ({incorrectQuestions.length}개)</h3>
+          <h3>❌ {t('results.wrongQuestions', { count: incorrectQuestions.length })}</h3>
           <div className="wrong-answers-list">
             {incorrectQuestions.map((question, index) => (
               <div key={question.questionId} className="wrong-answer-item">
@@ -82,13 +83,13 @@ function ResultsPage({ quizResult, onBackToDumpSelector }) {
                 </div>
                 <div className="answer-info">
                   <span className="user-answer">
-                    내 답: {Array.isArray(question.userAnswers) 
+                    {t('results.yourAnswer')}: {Array.isArray(question.userAnswers) 
                       ? question.userAnswers.map(i => String.fromCharCode(65 + i)).join(', ')
                       : String.fromCharCode(65 + question.userAnswers)
                     }
                   </span>
                   <span className="correct-answer">
-                    정답: {Array.isArray(question.correctAnswer)
+                    {t('results.correctAnswer')}: {Array.isArray(question.correctAnswer)
                       ? question.correctAnswer.map(i => String.fromCharCode(65 + i)).join(', ')
                       : String.fromCharCode(65 + question.correctAnswer)
                     }
@@ -127,7 +128,7 @@ function ResultsPage({ quizResult, onBackToDumpSelector }) {
                   
                   <div className="answer-comparison">
                     <div className="user-choice">
-                      <strong>내 선택:</strong>
+                      <strong>{t('results.yourAnswer')}</strong>
                       <span className={question.isCorrect ? 'correct-choice' : 'wrong-choice'}>
                         {Array.isArray(question.userAnswers) 
                           ? question.userAnswers.map(i => String.fromCharCode(65 + i)).join(', ')
@@ -138,7 +139,7 @@ function ResultsPage({ quizResult, onBackToDumpSelector }) {
                     
                     {!question.isCorrect && (
                       <div className="correct-choice-display">
-                        <strong>정답:</strong>
+                        <strong>{t('results.correctAnswer')}</strong>
                         <span className="correct-answer-text">
                           {Array.isArray(question.correctAnswer)
                             ? question.correctAnswer.map(i => String.fromCharCode(65 + i)).join(', ')
@@ -151,7 +152,7 @@ function ResultsPage({ quizResult, onBackToDumpSelector }) {
                   
                   {question.explanation && (
                     <div className="explanation-review">
-                      <strong>해설:</strong>
+                      <strong>{t('results.explanation')}</strong>
                       <p>{question.explanation}</p>
                     </div>
                   )}
@@ -164,7 +165,7 @@ function ResultsPage({ quizResult, onBackToDumpSelector }) {
 
       <div className="action-buttons">
         <button className="retry-btn" onClick={onBackToDumpSelector}>
-          🔄 다시 도전하기
+          {t('results.retryQuiz')}
         </button>
       </div>
     </div>

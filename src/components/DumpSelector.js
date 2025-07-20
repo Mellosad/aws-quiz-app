@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/DumpSelector.css';
+import { useTranslation } from 'react-i18next';
 
 function DumpSelector({ onDumpSelect }) {
   const [dumps, setDumps] = useState([]);
@@ -147,12 +148,14 @@ function DumpSelector({ onDumpSelect }) {
     setQuestionCount(Math.min(targetCount, maxQuestions));
   }, [maxQuestions]);
 
+  const { t } = useTranslation();
+
   if (loading) {
     return (
       <div className="dump-selector">
         <div className="loading">
-          <div className="loading-spinner">🔄</div>
-          <p>덤프 목록을 불러오는 중...</p>
+          <div className="loading-spinner">��</div>
+          <p>{t('dump.loading')}</p>
         </div>
       </div>
     );
@@ -163,18 +166,18 @@ function DumpSelector({ onDumpSelect }) {
       <div className="dump-selector">
         <div className="error-state">
           <div className="error-icon">❌</div>
-          <h3>덤프 로드 실패</h3>
+          <h3>{t('error.loadFailed')}</h3>
           <p className="error-message">{error}</p>
           <div className="troubleshooting">
-            <h4>💡 해결 방법:</h4>
+            <h4>{t('error.solution')}</h4>
             <ul>
-              <li>public/data/aws-dumps.json 파일이 있는지 확인</li>
-              <li>JSON 파일의 문법이 올바른지 확인</li>
-              <li>브라우저를 새로고침해보세요</li>
+              <li>{t('error.checkFile')}</li>
+              <li>{t('error.checkSyntax')}</li>
+              <li>{t('error.refresh')}</li>
             </ul>
           </div>
           <button onClick={loadDumps} className="retry-btn">
-            🔄 다시 시도
+            {t('common.retry')}
           </button>
         </div>
       </div>
@@ -186,14 +189,14 @@ function DumpSelector({ onDumpSelect }) {
       <div className="dump-selector">
         <div className="no-dumps">
           <div className="empty-icon">📚</div>
-          <h3>등록된 덤프가 없습니다</h3>
-          <p>data/ 폴더에 덤프 JSON 파일들을 추가해주세요</p>
+          <h3>{t('dump.noDumps')}</h3>
+          <p>{t('dump.noDumpsGuide')}</p>
           <div className="setup-guide">
-            <h4>📝 설정 가이드</h4>
+            <h4>{t('dump.setupGuide')}</h4>
             <ol>
-              <li>public/data/aws-dumps.json 파일 확인</li>
-              <li>또는 dumps-config.json으로 다중 덤프 설정</li>
-              <li>브라우저 새로고침</li>
+              <li>{t('dump.setupStep1')}</li>
+              <li>{t('dump.setupStep2')}</li>
+              <li>{t('dump.setupStep3')}</li>
             </ol>
           </div>
         </div>
@@ -204,10 +207,10 @@ function DumpSelector({ onDumpSelect }) {
   return (
     <div className="dump-selector">
       <div className="page-header">
-        <h1>AWS 자격증 덤프 선택</h1>
-        <p>학습하고 싶은 AWS 덤프를 선택해주세요</p>
+        <h1>{t('dump.title')}</h1>
+        <p>{t('dump.subtitle')}</p>
         <div className="dumps-summary">
-          총 {dumps.length}개의 덤프 | {dumps.reduce((total, dump) => total + (dump.questionCount || 0), 0)}개 문제
+          {t('dump.summary', { dumpCount: dumps.length, questionCount: dumps.reduce((total, dump) => total + (dump.questionCount || 0), 0) })}
         </div>
       </div>
       
@@ -218,10 +221,10 @@ function DumpSelector({ onDumpSelect }) {
             className={`dump-card ${dump.featured ? 'featured' : ''}`}
             onClick={() => handleDumpClick(dump)}
           >
-            {dump.featured && <div className="featured-badge">추천</div>}
+            {dump.featured && <div className="featured-badge">{t('dump.featured')}</div>}
             
             <div className="dump-card-header">
-              <h3>{dump.title || '제목 없음'}</h3>
+              <h3>{dump.title || t('dump.noTitle')}</h3>
               <div className="badges">
                 {dump.category && (
                   <span 
@@ -243,13 +246,13 @@ function DumpSelector({ onDumpSelect }) {
             </div>
             
             <p className="dump-description">
-              {dump.description || 'AWS 자격증 덤프입니다.'}
+              {dump.description || t('dump.defaultDescription')}
             </p>
             
             <div className="dump-stats">
               <div className="stat-item">
                 <span className="stat-icon">📝</span>
-                <span className="stat-text">{dump.questionCount || 0}문제</span>
+                <span className="stat-text">{dump.questionCount || 0}{t('dump.questions')}</span>
               </div>
               <div className="stat-item">
                 <span className="stat-icon">🎯</span>
@@ -262,7 +265,7 @@ function DumpSelector({ onDumpSelect }) {
             </div>
             
             <button className="start-button">
-              문항 수 선택 →
+              {t('dump.selectQuestions')} →
             </button>
           </div>
         ))}
@@ -273,7 +276,7 @@ function DumpSelector({ onDumpSelect }) {
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
-              <h2>🎯 문항 수 선택</h2>
+              <h2>🎯 {t('dump.selectQuestions')}</h2>
               <button className="modal-close" onClick={handleCloseModal}>✕</button>
             </div>
             
@@ -298,7 +301,7 @@ function DumpSelector({ onDumpSelect }) {
                     </span>
                   )}
                 </div>
-                <p>총 {selectedDump.questionCount || 0}문제 중에서 선택</p>
+                <p>{t('dump.totalQuestions', { count: selectedDump.questionCount || 0 })}</p>
               </div>
               
               <div className="question-count-selector">
@@ -326,40 +329,40 @@ function DumpSelector({ onDumpSelect }) {
                     onClick={() => handleQuickSelect(10)}
                     className={questionCount === Math.min(10, maxQuestions) ? 'quick-btn active' : 'quick-btn'}
                   >
-                    10문제
+                    {t('dump.questions10')}
                   </button>
                   <button 
                     onClick={() => handleQuickSelect(25)}
                     className={questionCount === Math.min(25, maxQuestions) ? 'quick-btn active' : 'quick-btn'}
                   >
-                    25문제
+                    {t('dump.questions25')}
                   </button>
                   <button 
                     onClick={() => handleQuickSelect(50)}
                     className={questionCount === Math.min(50, maxQuestions) ? 'quick-btn active' : 'quick-btn'}
                   >
-                    50문제
+                    {t('dump.questions50')}
                   </button>
                   <button 
                     onClick={() => handleQuickSelect(maxQuestions)}
                     className={questionCount === maxQuestions ? 'quick-btn active' : 'quick-btn'}
                   >
-                    전체
+                    {t('dump.questionsAll')}
                   </button>
                 </div>
               </div>
               
               <div className="estimated-time">
-                <span>⏱️ 예상 소요 시간: {Math.ceil(questionCount * 1.5)}분</span>
+                <span>⏱️ {t('dump.estimatedTime', { time: Math.ceil(questionCount * 1.5) })}</span>
               </div>
             </div>
             
             <div className="modal-footer">
               <button className="cancel-btn" onClick={handleCloseModal}>
-                취소
+                {t('common.cancel')}
               </button>
               <button className="start-quiz-btn" onClick={handleStartQuiz}>
-                퀴즈 시작 🚀
+                {t('dump.startQuiz')} 🚀
               </button>
             </div>
           </div>

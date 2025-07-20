@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/SearchPage.css';
+import { useTranslation } from 'react-i18next';
 
 function SearchPage({ onStartSearchQuiz }) {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -8,6 +9,7 @@ function SearchPage({ onStartSearchQuiz }) {
   const [selectedQuestions, setSelectedQuestions] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [searchCategory, setSearchCategory] = useState('all');
+  const { t } = useTranslation();
 
   useEffect(() => {
     loadAllQuestions();
@@ -110,8 +112,8 @@ function SearchPage({ onStartSearchQuiz }) {
   return (
     <div className="search-page">
       <div className="search-header">
-        <h1>🔍 문제 검색</h1>
-        <p>키워드나 카테고리로 원하는 문제를 찾아보세요</p>
+        <h1>{t('search.title')}</h1>
+        <p>{t('search.subtitle')}</p>
       </div>
 
       <div className="search-controls">
@@ -119,12 +121,12 @@ function SearchPage({ onStartSearchQuiz }) {
           <input
             type="text"
             className="search-input"
-            placeholder="문제 내용, 선택지, 해설에서 검색..."
+            placeholder={t('search.placeholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <div className="search-stats">
-            {filteredQuestions.length}개 문제 발견 | {selectedQuestions.size}개 선택됨
+            {t('search.foundQuestions', { count: filteredQuestions.length })} | {t('search.selectedQuestions', { count: selectedQuestions.size })}
           </div>
         </div>
 
@@ -134,27 +136,27 @@ function SearchPage({ onStartSearchQuiz }) {
             onChange={(e) => setSearchCategory(e.target.value)}
             className="category-select"
           >
-            <option value="all">전체 카테고리</option>
+            <option value="all">{t('search.allCategories')}</option>
             <option value="ec2">EC2</option>
             <option value="s3">S3</option>
             <option value="vpc">VPC</option>
             <option value="rds">RDS</option>
             <option value="lambda">Lambda</option>
-            <option value="single">단일 선택</option>
-            <option value="multiple">복수 선택</option>
+            <option value="single">{t('search.singleChoice')}</option>
+            <option value="multiple">{t('search.multipleChoice')}</option>
           </select>
         </div>
 
         <div className="selection-controls">
           <button onClick={selectAllFiltered} className="select-all-btn">
-            전체 선택
+            {t('search.selectAll')}
           </button>
           <button onClick={clearSelection} className="clear-selection-btn">
-            선택 해제
+            {t('search.clearSelection')}
           </button>
           {selectedQuestions.size > 0 && (
             <button onClick={startSelectedQuiz} className="start-selected-quiz-btn">
-              선택된 {selectedQuestions.size}개 문제로 퀴즈 시작
+              {t('search.startQuiz', { count: selectedQuestions.size })}
             </button>
           )}
         </div>
@@ -205,7 +207,7 @@ function SearchPage({ onStartSearchQuiz }) {
                   </div>
 
                   <div className="answer-info">
-                    <strong>정답: </strong>
+                    <strong>{t('search.answer')}</strong>
                     <span className="correct-answer">
                       {Array.isArray(question.correctAnswer) 
                         ? question.correctAnswer.map(i => String.fromCharCode(65 + i)).join(', ')

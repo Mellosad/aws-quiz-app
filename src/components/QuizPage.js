@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/QuizPage.css';
+import { useTranslation } from 'react-i18next';
 
 function QuizPage({ selectedDump, onBackToDumpSelector }) {
   const [questions, setQuestions] = useState([]);
@@ -172,6 +173,7 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
 
   const currentQuestion = questions[currentQuestionIndex];
   const totalQuestions = questions.length;
+  const { t } = useTranslation();
 
   // 문제 카테고리 자동 분류 함수
   const getQuestionCategory = useCallback((questionText) => {
@@ -470,16 +472,16 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
     <div className="quiz-page">
       {/* 키보드 단축키 안내 */}
       <div className="keyboard-shortcuts-hint">
-        <span>⌨️ 단축키: 1-5(선택지) | 스페이스(정답확인) | Enter(다음) | B(북마크) | ← →(이동)</span>
+        <span>{t('keyboard.shortcuts')}</span>
       </div>
 
       <div className="quiz-header">
         <div className="quiz-info">
           <h1>{selectedDump.title}</h1>
           <div className="progress-info">
-            <span>문제 {currentQuestionIndex + 1} / {totalQuestions}</span>
-            <span>점수: {score}/{totalQuestions}</span>
-            <span className="selected-count">📋 선택: {selectedDump.selectedQuestionCount}문제</span>
+            <span>{t('quiz.question', { current: currentQuestionIndex + 1, total: totalQuestions })}</span>
+            <span>{t('quiz.score', { score, total: totalQuestions })}</span>
+            <span className="selected-count">📋 {t('quiz.selected', { count: selectedDump.selectedQuestionCount })}</span>
           </div>
         </div>
         <div className="header-actions">
@@ -491,7 +493,7 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
             {bookmarkedQuestions.has(currentQuestion?.id) ? '⭐' : '☆'}
           </button>
           <button className="back-button" onClick={handleQuitQuiz}>
-            ← 덤프 선택으로 돌아가기
+            ← {t('quiz.backToDump')}
           </button>
         </div>
       </div>
@@ -516,9 +518,9 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
           {currentQuestion.type === 'multiple' && (
             <div className="question-hint">
               <span className="selection-info">
-                {selectedAnswers.length}/{currentQuestion.requiredSelections || 2} 선택됨
+                {selectedAnswers.length}/{currentQuestion.requiredSelections || 2} {t('quiz.selectedCount', { current: selectedAnswers.length, total: currentQuestion.requiredSelections || 2 })}
                 {selectedAnswers.length < (currentQuestion.requiredSelections || 2) && 
-                  ` - ${(currentQuestion.requiredSelections || 2) - selectedAnswers.length}개 더 선택하세요`
+                  ` - ${t('quiz.selectMore', { count: (currentQuestion.requiredSelections || 2) - selectedAnswers.length })}`
                 }
               </span>
             </div>
@@ -559,13 +561,13 @@ function QuizPage({ selectedDump, onBackToDumpSelector }) {
               {(currentQuestion.type === 'single' ? 
                 selectedAnswers[0] === currentQuestion.correctAnswer :
                 JSON.stringify([...selectedAnswers].sort()) === JSON.stringify([...(Array.isArray(currentQuestion.correctAnswer) ? currentQuestion.correctAnswer : [currentQuestion.correctAnswer])].sort())
-              ) ? '✅정답!' : '❌오답!'}
+              ) ? t('quiz.correct') : t('quiz.incorrect')}
             </div>
             <div className="explanation">
-              <h4>해설:</h4>
+              <h4>{t('quiz.explanation')}</h4>
               <p>{currentQuestion.explanation}</p>
               {currentQuestion.type === 'multiple' && Array.isArray(currentQuestion.correctAnswer) && (
-                <p><strong>정답:</strong> {currentQuestion.correctAnswer.map(i => String.fromCharCode(65 + i)).join(', ')}</p>
+                <p><strong>{t('quiz.correctAnswer')}</strong> {currentQuestion.correctAnswer.map(i => String.fromCharCode(65 + i)).join(', ')}</p>
               )}
             </div>
           </div>

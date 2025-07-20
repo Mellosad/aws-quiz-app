@@ -1,29 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import '../styles/BookmarksPage.css';
 
 function BookmarksPage({ onStartBookmarkQuiz }) {
+  const { t } = useTranslation();
   const [bookmarkedQuestions, setBookmarkedQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  // 해설 더보기/접기 상태 관리
+  const [expandedExplanations, setExpandedExplanations] = useState({});
 
-  useEffect(() => {
-    loadBookmarkedQuestions();
-  }, []);
-
-  const loadBookmarkedQuestions = async () => {
+  // 북마크된 문제 로드 함수를 useCallback으로 최적화
+  const loadBookmarkedQuestions = useCallback(async () => {
     try {
+      setLoading(true);
+      setError(null);
+
       // 북마크된 문제 ID들 가져오기
       const savedBookmarks = localStorage.getItem('bookmarkedQuestions');
       const bookmarkIds = savedBookmarks ? JSON.parse(savedBookmarks) : [];
 
       if (bookmarkIds.length === 0) {
+        setBookmarkedQuestions([]);
         setLoading(false);
         return;
       }
 
       // JSON 파일에서 전체 문제 데이터 로드
       const response = await fetch('/data/aws-dumps.json');
-      const data = await response.json();
       
+      if (!response.ok) {
+        throw new Error(t('error.fileNotFound'));
+      }
+
+      const data = await response.json();
       const allQuestionsFromDump = data.dumps[0].questions || [];
 
       // 북마크된 문제들만 필터링
@@ -35,123 +45,229 @@ function BookmarksPage({ onStartBookmarkQuiz }) {
       setLoading(false);
     } catch (error) {
       console.error('북마크 데이터 로드 실패:', error);
+      setError(error.message);
       setLoading(false);
     }
-  };
+  }, [t]);
 
-  const removeBookmark = (questionId) => {
-    // 북마크에서 제거
+  useEffect(() => {
+    loadBookmarkedQuestions();
+  }, [loadBookmarkedQuestions]);
+
+  // 개별 북마크 제거
+  const removeBookmark = useCallback((questionId) => {
     const savedBookmarks = JSON.parse(localStorage.getItem('bookmarkedQuestions') || '[]');
     const updatedBookmarks = savedBookmarks.filter(id => id !== questionId);
     localStorage.setItem('bookmarkedQuestions', JSON.stringify(updatedBookmarks));
     
-    // 상태 업데이트
     setBookmarkedQuestions(prev => prev.filter(q => q.id !== questionId));
-  };
+  }, []);
 
-  const clearAllBookmarks = () => {
-    if (window.confirm('모든 북마크를 삭제하시겠습니까?')) {
+  // 모든 북마크 삭제
+  const clearAllBookmarks = useCallback(() => {
+    if (window.confirm(t('bookmarks.confirmClearAll'))) {
       localStorage.removeItem('bookmarkedQuestions');
       setBookmarkedQuestions([]);
     }
-  };
+  }, [t]);
 
-  const startBookmarkQuiz = () => {
+  // 북마크 퀴즈 시작
+  const startBookmarkQuiz = useCallback(() => {
     if (bookmarkedQuestions.length > 0) {
       onStartBookmarkQuiz(bookmarkedQuestions);
     }
+  }, [bookmarkedQuestions, onStartBookmarkQuiz]);
+
+  // 키보드 단축키 지원
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      switch (event.key.toLowerCase()) {
+        case 's':
+          event.preventDefault();
+          if (bookmarkedQuestions.length > 0) {
+            startBookmarkQuiz();
+          }
+          break;
+        case 'delete':
+        case 'backspace':
+          if (event.ctrlKey || event.metaKey) {
+            event.preventDefault();
+            clearAllBookmarks();
+          }
+          break;
+        case 'r':
+          if (event.ctrlKey || event.metaKey) {
+            event.preventDefault();
+            loadBookmarkedQuestions();
+          }
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [bookmarkedQuestions.length, startBookmarkQuiz, clearAllBookmarks, loadBookmarkedQuestions]);
+
+  // 해설 더보기/접기 토글 함수
+  const toggleExplanation = (id) => {
+    setExpandedExplanations(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
   };
 
   if (loading) {
     return (
       <div className="bookmarks-page">
-        <div className="loading">북마크 데이터를 불러오는 중...</div>
+        <div className="loading">
+          <div className="loading-spinner">🔄</div>
+          <p>{t('bookmarks.loading')}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bookmarks-page">
+        <div className="error-state">
+          <div className="error-icon">❌</div>
+          <h3>{t('error.loadFailed')}</h3>
+          <p>{error}</p>
+          <button onClick={loadBookmarkedQuestions} className="retry-btn" aria-label={t('common.retry')}>
+            🔄 {t('common.retry')}
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="bookmarks-page">
+      {/* 키보드 단축키 안내 */}
+      <div className="keyboard-shortcuts-hint">
+        <span>{t('bookmarks.shortcuts')}: S({t('bookmarks.startQuiz')}) | Ctrl+Del({t('bookmarks.clearAll')}) | Ctrl+R({t('common.refresh')})</span>
+      </div>
+
       <div className="bookmarks-header">
-        <div className="header-content">
-          <h1>⭐ 북마크한 문제</h1>
-          <p>중요하다고 표시한 문제들을 관리하세요</p>
-        </div>
-        <div className="header-actions">
-          {bookmarkedQuestions.length > 0 && (
-            <>
-              <button className="quiz-start-btn" onClick={startBookmarkQuiz}>
-                🎯 북마크 퀴즈 시작
-              </button>
-              <button className="clear-all-btn" onClick={clearAllBookmarks}>
-                🗑️ 전체 삭제
-              </button>
-            </>
-          )}
+        <h1>{t('bookmarks.title')}</h1>
+        <p>{t('bookmarks.subtitle')}</p>
+        <div className="bookmarks-actions-row">
+          <button 
+            className="quiz-start-btn main-action" 
+            onClick={startBookmarkQuiz}
+            disabled={bookmarkedQuestions.length === 0}
+            aria-label={t('bookmarks.startQuiz')}
+          >
+            🎯 {t('bookmarks.startQuiz')}
+          </button>
+          <button 
+            className="clear-all-btn" 
+            onClick={clearAllBookmarks}
+            disabled={bookmarkedQuestions.length === 0}
+            aria-label={t('bookmarks.clearAll')}
+          >
+            🗑️ {t('bookmarks.clearAll')}
+          </button>
+          <button 
+            className="refresh-btn" 
+            onClick={loadBookmarkedQuestions}
+            aria-label={t('common.refresh')}
+          >
+            🔄 {t('common.refresh')}
+          </button>
         </div>
       </div>
 
       {bookmarkedQuestions.length === 0 ? (
-        <div className="empty-bookmarks">
-          <div className="empty-icon">📖</div>
-          <h3>북마크한 문제가 없습니다</h3>
-          <p>퀴즈를 풀면서 중요한 문제에 별표(⭐)를 눌러 북마크해보세요!</p>
+        <div className="empty-bookmarks emphasized-empty">
+          <div className="empty-icon">⭐</div>
+          <h2>{t('bookmarks.empty')}</h2>
+          <p className="empty-guide">{t('bookmarks.emptyGuide')}</p>
           <div className="empty-tips">
-            <h4>💡 북마크 활용 팁</h4>
+            <h4>{t('bookmarks.tips')}</h4>
             <ul>
-              <li>어려웠던 문제는 북마크해서 나중에 다시 풀어보세요</li>
-              <li>헷갈리는 개념이 나온 문제를 북마크하세요</li>
-              <li>시험 직전 마지막 점검용으로 활용하세요</li>
+              <li>{t('bookmarks.tip1')}</li>
+              <li>{t('bookmarks.tip2')}</li>
+              <li>{t('bookmarks.tip3')}</li>
             </ul>
           </div>
+          <button 
+            className="back-to-quiz-btn main-action"
+            onClick={() => window.history.back()}
+            aria-label={t('bookmarks.backToQuiz')}
+          >
+            📚 {t('bookmarks.backToQuiz')}
+          </button>
         </div>
       ) : (
         <div className="bookmarks-content">
           <div className="bookmarks-summary">
             <div className="summary-card">
               <div className="summary-number">{bookmarkedQuestions.length}</div>
-              <div className="summary-label">북마크된 문제</div>
+              <div className="summary-label">{t('bookmarks.count')}</div>
             </div>
           </div>
 
           <div className="bookmarks-list">
             {bookmarkedQuestions.map((question, index) => (
-              <div key={question.id} className="bookmark-item">
+              <div key={question.id} className="bookmark-item card-style">
                 <div className="bookmark-header">
                   <div className="question-info">
                     <span className="question-number">Q{question.id}</span>
                     <span className="question-type">
                       {question.type === 'multiple' ? 
-                        `복수 선택 (${question.requiredSelections || 2}개)` : 
-                        '단일 선택'
+                        t('bookmarks.multipleType', { count: question.requiredSelections || 2 }) : 
+                        t('bookmarks.singleType')
                       }
+                    </span>
+                    <span className="bookmark-index">
+                      {index + 1} / {bookmarkedQuestions.length}
                     </span>
                   </div>
                   <button 
                     className="remove-bookmark-btn"
                     onClick={() => removeBookmark(question.id)}
-                    title="북마크 제거"
+                    aria-label={t('bookmarks.remove')}
                   >
                     ✕
                   </button>
                 </div>
-                
                 <div className="question-content">
                   <h3 className="question-text">{question.question}</h3>
-                  
                   <div className="options-preview">
-                    {question.options.map((option, optionIndex) => (
-                      <div key={optionIndex} className="option-preview">
-                        <span className="option-label">
-                          {String.fromCharCode(65 + optionIndex)}.
-                        </span>
-                        <span className="option-text">{option}</span>
-                      </div>
-                    ))}
+                    {question.options.map((option, optionIndex) => {
+                      const isCorrect = Array.isArray(question.correctAnswer)
+                        ? question.correctAnswer.includes(optionIndex)
+                        : question.correctAnswer === optionIndex;
+                      return (
+                        <div 
+                          key={optionIndex} 
+                          className={`option-preview${isCorrect ? ' correct' : ''}`}
+                          tabIndex={0}
+                          aria-label={isCorrect ? t('bookmarks.answer') : undefined}
+                        >
+                          <span className="option-label">
+                            {String.fromCharCode(65 + optionIndex)}.
+                          </span>
+                          <span className="option-text">{option}</span>
+                          {isCorrect && (
+                            <span className="correct-indicator" aria-label={t('bookmarks.answer')}>✓</span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                  
                   <div className="answer-preview">
-                    <strong>정답: </strong>
+                    <strong>{t('bookmarks.answer')}: </strong>
                     <span className="correct-answer">
                       {Array.isArray(question.correctAnswer) 
                         ? question.correctAnswer.map(i => String.fromCharCode(65 + i)).join(', ')
@@ -159,15 +275,44 @@ function BookmarksPage({ onStartBookmarkQuiz }) {
                       }
                     </span>
                   </div>
-                  
                   {question.explanation && (
                     <div className="explanation-preview">
-                      <strong>해설: </strong>
-                      <span>{question.explanation.substring(0, 150)}
-                        {question.explanation.length > 150 && '...'}
+                      <strong>{t('bookmarks.explanation')}: </strong>
+                      <span className="explanation-text">
+                        {question.explanation.length > 200 && !expandedExplanations[question.id]
+                          ? (
+                            <>
+                              {question.explanation.substring(0, 200)}...
+                              <button 
+                                className="expand-btn"
+                                onClick={() => toggleExplanation(question.id)}
+                                aria-label={t('bookmarks.showMore')}
+                              >
+                                {t('bookmarks.showMore')}
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              {question.explanation}
+                              {question.explanation.length > 200 && (
+                                <button 
+                                  className="expand-btn"
+                                  onClick={() => toggleExplanation(question.id)}
+                                  aria-label={t('bookmarks.showLess')}
+                                >
+                                  {t('bookmarks.showLess')}
+                                </button>
+                              )}
+                            </>
+                          )}
                       </span>
                     </div>
                   )}
+                  <div className="bookmark-meta">
+                    <span className="bookmark-date">
+                      {t('bookmarks.bookmarked')}: {new Date().toLocaleDateString()}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
