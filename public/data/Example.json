@@ -10,15 +10,15 @@
       "questions": [
         {
           "id": 1,
-          "question": "회사는 데이터를 수집합니다.",
+          "question": "Qa",
           "options": [
-            "S3 Transfer Acceleration ",
-            "S3 버킷에 업로드합니다. ",
-            "AWS Snowball Edge Storage",
-            "EBS 볼륨"
+            "A",
+            "B",
+            "C",
+            "D"
           ],
           "correctAnswer": 0,
-          "explanation": "YAHO.",
+          "explanation": "explain",
           "type": "single"
         }
       ]
