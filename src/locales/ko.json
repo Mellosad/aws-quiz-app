@@ -151,7 +151,8 @@
     "showLess": "접기",
     "startQuizTooltip": "북마크한 문제로 퀴즈 시작",
     "clearAllTooltip": "모든 북마크 삭제",
-    "refreshTooltip": "북마크 새로고침"
+    "refreshTooltip": "북마크 새로고침",
+    "shortcuts": "단축키"
   },
   "weakness": {
     "title": "📈 약점 분석 대시보드",

@@ -151,7 +151,8 @@
     "showLess": "Show Less",
     "startQuizTooltip": "Start quiz with bookmarked questions",
     "clearAllTooltip": "Delete all bookmarks",
-    "refreshTooltip": "Refresh bookmarks"
+    "refreshTooltip": "Refresh bookmarks",
+    "shortcuts": "Shortcuts"
   },
   "weakness": {
     "title": "📈 Weakness Analysis Dashboard",
